@@ -1,0 +1,42 @@
+<!doctype html>
+<html class="no-js" lang="" xmlns="">
+
+<head>
+    <meta charset="utf-8">
+    <title>WebSocket Client</title>
+
+    <script>
+        const webSocket = new WebSocket('wss://localhost:9443')
+
+        webSocket.onmessage = (message) => {
+            const div = document.getElementById('chat');
+            div.innerHTML += `<p>${message.data}</p>`;
+        }
+
+        function send() {
+            const input = document.getElementById('message');
+            webSocket.send(input.value);
+            input.value = '';
+            input.focus();
+        }
+    </script>
+</head>
+
+<body>
+<div id="chat"></div>
+<label for="message">Message</label>
+<input id="message">
+<button id="send" onclick="send()">Send</button>
+</body>
+
+<script>
+    document.getElementById('message')
+        .addEventListener('keyup', (event) => {
+            if (event.key === "Enter") {
+                document.getElementById("send")
+                    .click();
+            }
+        });
+</script>
+
+</html>
